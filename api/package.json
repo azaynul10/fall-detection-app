@@ -1,0 +1,13 @@
+{
+    "name": "fall-detection-api",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+      "start": "python app.py",
+      "build": "python -m pip install -r requirements.txt"
+    },
+    "dependencies": {
+      "express": "^4.18.2"
+    }
+  }
+  
