@@ -1,7 +1,9 @@
-// src/App.js
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import './App.css';  // Create this file for styles
+import './App.css';  // Ensure this file exists for styles
+import { endpoints } from './config';
+
+  // Define your API base URL here
 
 function App() {
   const videoRef = useRef(null);
@@ -13,79 +15,63 @@ function App() {
     fps: 0,
     detectionTime: 0
   });
-  const [previousFrames, setPreviousFrames] = useState([]);
-  const [isPaused, setIsPaused] = useState(false); // Added isPaused state
+  const [isPaused, setIsPaused] = useState(false);
 
-  const handlePause = async () => {
+  const handleDetectFall = useCallback(async (frame, retries = 3) => {
     try {
-      const response = await axios.post('http://localhost:5000/toggle_pause');
+      const response = await axios.post(endpoints.detectFall, { frame });
+      return response;
+    } catch (error) {
+      if (retries > 0) {
+        console.warn(`Retrying... (${retries} attempts left)`);
+        return handleDetectFall(frame, retries - 1);
+      }
+      throw error;
+    }
+  }, []);
+
+  const handlePause = useCallback(async () => {
+    try {
+      const response = await axios.post(endpoints.togglePause);
       setIsPaused(response.data.paused);
       
       if (response.data.paused) {
-        // Create a separate container for previous frames
-        const playbackContainer = document.createElement('div');
-        playbackContainer.className = 'playback-overlay';
-        document.querySelector('.video-container').appendChild(playbackContainer);
-  
-        const framesResponse = await axios.get('http://localhost:5000/get_previous_frames');
-        setPreviousFrames(framesResponse.data.frames);
-        
-        for (let frame of framesResponse.data.frames) {
-          if (canvasRef.current) {
+        const { data: { frames } } = await axios.get(endpoints.getPreviousFrames);
+        if (canvasRef.current && frames?.length) {
+          for (const frame of frames) {
             const img = new Image();
-            await new Promise((resolve) => {
-              img.onload = () => {
-                const context = canvasRef.current.getContext('2d');
-                context.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height);
-                resolve();
-              };
+            await new Promise((resolve, reject) => {
+              img.onload = resolve;
+              img.onerror = reject;
               img.src = frame.frame;
             });
+            const context = canvasRef.current.getContext('2d');
+            context.drawImage(img, 0, 0, canvasRef.current.width, canvasRef.current.height);
             await new Promise(resolve => setTimeout(resolve, 1000/30));
           }
         }
-        
-        // Remove playback container after playback
-        playbackContainer.remove();
       }
     } catch (error) {
       console.error("Error toggling pause:", error);
+      setError("Failed to toggle pause. Please try again.");
     }
-  };
-
-  // Add keyboard event listener
-  useEffect(() => {
-    const handleKeyPress = async (event) => {
-      if (event.key === 'p' || event.key === 'P') {
-        try {
-          const response = await axios.post('http://localhost:5000/toggle_pause');
-          setIsPaused(response.data.paused);
-        } catch (error) {
-          console.error("Error toggling pause:", error);
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
-
+  }, [canvasRef]); 
+  
   useEffect(() => {
     const detectFall = async () => {
-      if (videoRef.current && canvasRef.current) {
+      if (videoRef.current && canvasRef.current && !isPaused) {
         const startTime = performance.now();
         const video = videoRef.current;
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
 
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const frame = canvas.toDataURL('image/jpeg');
+        context.drawImage(video, 0, 0, canvas.width / 2, canvas.height / 2);
+        const frame = canvas.toDataURL('image/jpeg', 0.7);
 
         try {
-          const response = await axios.post('http://localhost:5000/detect_fall', { frame });
+          const response = await handleDetectFall(frame);
           setFallDetected(response.data.fall_detected);
       
-          // Display the annotated frame with pose landmarks
           if (response.data.annotated_frame) {
             const img = new Image();
             img.onload = () => {
@@ -95,7 +81,6 @@ function App() {
             img.src = response.data.annotated_frame;
           }
       
-          // Update stats
           const endTime = performance.now();
           setStats({
             fps: Math.round(1000 / (endTime - startTime)),
@@ -110,7 +95,7 @@ function App() {
   
     const interval = setInterval(detectFall, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isPaused, handleDetectFall]); // Added handleDetectFall to dependencies
 
   const startCamera = async () => {
     try {
