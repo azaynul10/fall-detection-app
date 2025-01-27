@@ -73,14 +73,11 @@ This repository contains a real-time Fall Detection System that leverages comput
 
 ## Deployment
 - **Frontend on Vercel:**  
-  1. Push your frontend code to a GitHub repository.  
-  2. Connect the repository in Vercel’s dashboard.  
-  3. Vercel automatically builds and deploys the React application.  
+  1. Pushed my frontend code to a GitHub repository and deployed directly from VS Studio to vercel.
 
 - **Backend on Railway:**  
-  1. Push your backend code to a GitHub repository.  
-  2. Connect the repository in Railway’s dashboard.  
-  3. Railway handles environment configuration, installs dependencies, and deploys the Flask app.  
+  1. Pushed my backend code to a GitHub repository and deployed on Railway due to storage limitations at Vercel but for some reason it's not wokring as expected but it is still under developement.  
+
 
 ## Screenshots and Videos
 > **Note:** 
