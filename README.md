@@ -87,10 +87,10 @@ This repository contains a real-time Fall Detection System that leverages comput
 >  
 > ```
 <img src="https://github.com/user-attachments/assets/48d464cd-d08e-405c-92fa-75284bad0cfc" width="400" height="300" alt="Fall Detection System Screenshot"> 
-> ```
+ 
 <img src="https://github.com/user-attachments/assets/3e153bb8-6991-4e37-9459-8a864f49be5e" width="400" height="300" alt="Fall Detection System Demo"> 
->
-> ```
+
+
 
 > ```
 
