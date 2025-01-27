@@ -1,7 +1,7 @@
 ## Fall Detection System
 
 ## Description
-This repository contains a real-time Fall Detection System that leverages computer vision and pose estimation techniques. The frontend is built with React and deployed on Vercel, while the Flask-based backend is deployed on Railway. It continuously processes frames from a connected camera stream, detects falls, and provides visual alerts when a fall event is identified.
+This repository contains a real-time Fall Detection System that leverages computer vision and pose estimation techniques. The frontend is built with React and deployed on Vercel, while the Flask-based backend is deployed on Railway. It continuously processes frames from a connected camera stream, detects falls, and provides visual alerts when a fall event is identified. I worked on this for straight 3 days due to deadlines.
 
 ## Table of Contents
 - [Features](#features)  
