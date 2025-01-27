@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+## Fall Detection System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
+This repository contains a real-time Fall Detection System that leverages computer vision and pose estimation techniques. The frontend is built with React and deployed on Vercel, while the Flask-based backend is deployed on Railway. It continuously processes frames from a connected camera stream, detects falls, and provides visual alerts when a fall event is identified.
 
-## Available Scripts
+## Table of Contents
+- [Features](#features)  
+- [Project Architecture](#project-architecture)  
+- [Prerequisites](#prerequisites)  
+- [Installation](#installation)  
+- [Usage](#usage)  
+- [Deployment](#deployment)  
+- [Screenshots and Videos](#screenshots-and-videos)  
+- [Contributing](#contributing)  
+- [License](#license)
 
-In the project directory, you can run:
+## Features
+- Real-time camera stream capture and processing  
+- Pose estimation and fall detection using OpenCV and MediaPipe  
+- Visual overlays for detected falls  
+- Pause/resume functionality to inspect historical frames  
+- Fully responsive React frontend  
 
-### `npm start`
+## Project Architecture
+**Frontend (Vercel)**  
+- Developed with React and Axios for communicating with the backend  
+- Displays camera feed, overlays annotated frames, and provides controls for pausing/resuming detection  
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Backend (Railway)**  
+- Flask application for handling frame data  
+- Uses OpenCV and MediaPipe for pose estimation and fall detection  
+- Exposes REST endpoints for real-time fall detection, pausing functionality, and retrieving previous frames  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Prerequisites
+- [Node.js](https://nodejs.org/) (for the frontend)  
+- [Python 3.10](https://www.python.org/) (for the backend)  
+- A camera-enabled device (for real-time detection)  
 
-### `npm test`
+## Installation
+1. **Clone this repository**  
+   ```bash
+   git clone https://github.com/<your-username>/fall-detection-system.git
+   ```
+2. **Frontend Setup**  
+   ```bash
+   cd client
+   npm install
+   ```
+3. **Backend Setup**  
+   ```bash
+   cd ../api
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Usage
+1. **Start the Backend**  
+   ```bash
+   cd api
+   source venv/bin/activate
+   python app.py
+   ```
+2. **Start the Frontend**  
+   ```bash
+   cd ../client
+   npm start
+   ```
+3. **Open the Application**  
+   - Navigate to `http://localhost:3000` in your web browser  
+   - Allow camera access when prompted  
+   - Observe real-time video feed and detection overlays  
 
-### `npm run build`
+## Deployment
+- **Frontend on Vercel:**  
+  1. Push your frontend code to a GitHub repository.  
+  2. Connect the repository in Vercel’s dashboard.  
+  3. Vercel automatically builds and deploys the React application.  
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Backend on Railway:**  
+  1. Push your backend code to a GitHub repository.  
+  2. Connect the repository in Railway’s dashboard.  
+  3. Railway handles environment configuration, installs dependencies, and deploys the Flask app.  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Screenshots and Videos
+> **Note:** 
+>  
+> ```
+<img src="https://github.com/user-attachments/assets/48d464cd-d08e-405c-92fa-75284bad0cfc" width="400" height="300" alt="Fall Detection System Screenshot"> 
+> ```
+<img src="https://github.com/user-attachments/assets/3e153bb8-6991-4e37-9459-8a864f49be5e" width="400" height="300" alt="Fall Detection System Demo"> 
+>
+> ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> ```
 
-### `npm run eject`
+## Contributing
+Contributions and suggestions are always welcome. Feel free to open issues or submit pull requests. Please follow these steps if you’d like to contribute:  
+1. Fork this repository  
+2. Create a new branch (`git checkout -b feature-name`)  
+3. Make your changes and commit them  
+4. Push to your fork and open a pull request  
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+This project is licensed under the [MIT License](LICENSE). Feel free to use and modify the code in accordance with the license terms.
